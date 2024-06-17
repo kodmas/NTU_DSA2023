@@ -1,0 +1,269 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{CJKutf8}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+
+\title{DSA HW1}
+\author{b09901142 EE3 呂睿超}
+\date{April 2023}
+
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\begin{document}
+\begin{CJK*}{UTF8}{bsmi}
+\maketitle
+
+\section{Problem 1 - What if you became a DSA TA?}
+\textbf{All problems in this section are done all by myself}
+\begin{enumerate}
+    \item False. There are plenty of counterexamples. A group of counterexamples are $f(x) = kx^\alpha , k\in \mathbb{R}, 2 <\alpha < 3 $ Simple proof of that is \[ \lim_{x\to\infty} \frac{kx^\alpha}{x^2} = \lim_{x\to\infty} kx^{\alpha -2} = \infty \hspace{0.1cm} (\because \alpha-2 > 0)\] 
+    \[ \lim_{x\to\infty} \frac{kx^\alpha}{x^3} = \lim_{x\to\infty} kx^{\alpha -3} = 0 \hspace{0.1cm} (\because \alpha-2 < 0)\] 
+    $\therefore f(x) = kx^\alpha \in O(n^3) \land f(x) = kx^\alpha \in \Omega(n^2) $
+
+    \item Time complexity is $O(n)$ \newline [Worst case analysis] Analyze the worst case, if the (if-else condition) always falls into A[m] < key. Then, l = l + 1 after a loop. Therefore, if key == A[r], then it would last n loops for the algorithm to end.
+
+    \item False. A counterexample is that f(n) = $\frac{n^2}{2}$ if n is odd ;  f(n) = $2n^2$ if n is even. Thus, $\exists c_1,c_2,n_0 $ s.t.  \[ c_1 \leq \frac{f(n)}{n^2} \leq c_2 \] for all n $\geq n_0$ ($f(n) \in \Theta(n^2))$ ,but \[ \lim_{n\to\infty} \frac{f(n)}{n^2}\] does not exists.
+
+    \item True,$\log{n} = O(\sqrt{n})$ \[\lim_{n\to\infty} \frac{\log{n}}{\sqrt{n}} \xrightarrow{L'hospital rule} \lim_{n\to\infty} \frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}}  = \lim_{n\to\infty} \frac{2\sqrt{n}}{{n}}  \xrightarrow{L'hospital rule} \lim_{n\to\infty} \frac{1}{\sqrt{n}} = 0\]$\therefore$ There $\exists c,n_0$ s.t. \[\ \log{n} \leq c*\sqrt{n} \] for all n $\geq n_0$ (any c $>$ 0 satisfies)
+
+    \item True, prove by mathematical induction.
+        \begin{enumerate}
+            \item when n=1, \[ \sum_{i=1}^{n} i^{n} = \sum_{i=1}^{1} i^{1} = 1 = O(1^1) \] identity clearly holds.
+            \item assume when n=k, the identity still holds.  \[ \sum_{i=1}^{k} i^{k} = 1^k+2^k +...+k^k = O(k^k) \] which indicates that There $\exists c,n_0$ s.t. \[ \sum_{i=1}^{k} i^{k} \leq c*k^k\] for all n $\geq n_0$ 
+            \item when n=k+1 \[ \sum_{i=1}^{k+1} i^{k+1} = 1^{k+1}+2^{k+1} +...+k^{k+1}+ (k+1)^{k+1} = k*(1^k+2^k +...+k^k) + (k+1)^{k+1} \] \[ \leq k*(c*k^k) + (k+1)^{k+1} (by(b)) = c*k^{k+1} + (k+1)^{k+1}\]
+            \[\leq (c+1)(k+1)^{k+1}\]
+            $\therefore$ There $\exists c_2 = (c+1),n_0$ s.t. \[\\sum_{i=1}^{k+1} i^{k+1} \leq c_2*(k+1)^{k+1} \] for all n $\geq n_0$ ,Which indicates \[ \sum_{i=1}^{k+1} i^{k+1} = O((k+1)^{k+1}) \]
+            \item By (a) (b) (c) and mathematical induction, we can proof that \[ \sum_{i=1}^{n} i^{n} = O(n^n) \]
+        \end{enumerate}
+
+    \item Correct proof : $\lvert \log{f(n)} - \log{g(n)} \rvert = O(1)$ $ \exists n_0,c $ s.t. $ \lvert \log{f(n)} - \log{g(n)} \rvert \leq c$ for all n $> n_0$ , $log{\frac{f(n)}{g(n)}}\leq c$, $\frac{f(n)}{g(n)}\leq 2^c$, $f(n) \leq 2^c * g(n)$ assume $c_2 = 2^c $ $\therefore \exists n_0,c2$ s.t.$f(n) \leq  c_2 * g(n)$ , $f(n) = O(g(n))$
+\end{enumerate}
+
+\section{Problem 2 - DSA Judge}
+\textbf{All problems in this section are done all by myself}
+\begin{enumerate}
+    \item \begin{enumerate}
+        \item Algorithm as below
+        \begin{algorithm}[H]
+        \caption{Two\_keys\_Binary\_search(A,key1,key2,l,r)}
+        \begin{algorithmic}
+        \State pos1 = Binary\_search(A,key1,l,r)
+        \State pos2 = Binary\_search(A,key1,l,r) \\
+        \Return pos1,pos2
+        \end{algorithmic}
+        \end{algorithm}
+        \begin{algorithm} [H]
+        \caption{Binary\_search(A,key,l,r)}
+        \begin{algorithmic}
+        \While{$l \leq r$}
+        \State m = floor((l+r)/2)
+        \If{$A[m-1] < key < A[m]]$} 
+            \State \Return $m$
+        \ElsIf{$A[m] > $  key}
+            \State $r = m-1$
+        \ElsIf{$A[m] < $  key}
+            \State $r = m+1$
+        \EndIf
+        \EndWhile
+        \end{algorithmic}
+        \end{algorithm}
+    \item Time Complexity = O($log{n}$) , simply because doing two binary searches.
+    \end{enumerate}
+    
+    \item \begin{enumerate}
+        \item Algorithm as below
+        \begin{algorithm} [H]
+        \caption{Valid\_pair(testcase)}
+        \begin{algorithmic}
+        \State head = testcase
+        \While{ head $\neq$ NIL}
+        \State curr = head
+        \State Traverse through testcase
+        \If{curr.data = head.data*2}
+            \State remove curr \Comment{(curr.prev.next = curr.next etc..)}
+            \State head = head.next
+        \EndIf
+        \If{curr.next = NIL && curr.data!= head.data*2}
+        \State \Return False
+        \EndIf
+        \EndWhile
+        \State \Return True
+        \end{algorithmic}
+        \end{algorithm}
+        
+        \item Time Complexity = O(${n}$) , simply a one pass algorithm, and each element remove cost O(1) using linked list. Extra-space complexity of O(1) (Only using head, and curr pointer).
+    \end{enumerate} 
+        
+    
+    \item \begin{enumerate}
+        \item Algorithm as below 
+        \begin{algorithm}[H]
+        \caption{Merge\_lists(accepted,unaccepted)}
+        \begin{algorithmic}
+        \State new = NIL
+        \While{accepted $\neq$ NIL $\Or$ unaccepted $\neq$ NIL }
+        \If{accepted.data $<$ unaccepted.data} 
+            \State temp = accepted
+            \State accepted = accepted.next
+            \If{new == NIL}
+                \State new = temp
+            \Else 
+                \State temp.next = new
+                \State new = temp
+            \EndIf
+        \Else
+        \State temp = unaccepted
+            \State unaccepted = unaccepted.next
+            \If{new == NIL}
+                \State new = temp
+            \Else 
+                \State temp.next = new
+                \State new = temp
+            \EndIf
+        \EndIf
+        \EndWhile
+        \State \Return new
+        \end{algorithmic}
+        \end{algorithm}
+
+        \item Time Complexity = O(${n}$) , simply a one pass algorithm, we simultaneously traverse through both linked list for only one time. Also the reverse operation is done by inserting from the front, therfore it is also controlled to O(n).Extra-space complexity of O(1) (Only using new, and temp pointer).
+    \end{enumerate}
+        
+    \item  \begin{enumerate}
+        \item Algorithm as below
+        \begin{algorithm}[H]
+        \caption{Absolute-sorted\_list(original)}
+        \begin{algorithmic}
+        \State temp,new = NIL,NIL
+        \State current = original
+        \While{current.next.next $\neq$ NIL} 
+        \If{current.next.data $ < 0$} 
+            \State temp = current.next
+            \State current.next = current.next.next
+            \If{new == NIL}
+                \State new = temp
+            \Else 
+                \State temp.next = new
+                \State new = temp
+            \EndIf
+        \State current = current.next
+        \EndIf
+        \EndWhile
+        \State \Return new
+        \end{algorithmic}
+        \end{algorithm}
+
+        \item Time Complexity = O(${n}$) , simply a one pass algorithm, we traverse through the linked list for only one time. Extra-space complexity of O(1) (Only using new, and temp pointer).
+    \end{enumerate}
+    
+\end{enumerate}
+
+\section{Problem 3 - Stack / Queue }
+\textbf{All problems in this section are done all by myself}
+\begin{enumerate}
+    \item 
+        \begin{enumerate}
+        \item Step1: parenthesize, $ ((5+(3*4)) - ((8*(2+3))-((1+(9*6))/5)))$
+        \item Step2: switch orders for every triple in parentheses, $((5(34*)+)(8(23+)*)((1(96*)+)5/)-)$
+        \item Step3: remove parentheses, $534*+834+*196*+5/-$
+        \end{enumerate}
+    
+    \item Step 1 : 5,2,7,* $\rightarrow$ 5,14 ; Step 2 : 5,14,+ $\rightarrow$ 19 ; Step 3 : 19,6,3,4,-$\rightarrow$19,6,-1  Step 4 : 19,6,-1,* $\rightarrow$ 19,-6 ; Step 5 : 19,-6,4,8,6,* $\rightarrow$ 19,-6,4,48 ; \\
+    Step 6 : 19,-6,4,48,+$ \rightarrow$ 19,-6,52 ; Step 7 : 19,-6,52,4,/ $\rightarrow$ 19,-6,13; \\
+    Step 8 : 19,-6,13,- $\rightarrow$ 19,-19; Step 9 : 19,-19,- $\rightarrow$ 38
+
+    \item Step 1 : pop(S0) ; Step 2 : push(S2,4) ; Step 3 : pop(S0) ;\\ Step 4 : push(S1,1) ; Step 5 : pop(S0) ; Step 6 : push(S1,2) ; \\ Step 7 : pop(S0) ; Step 8 : push(S2,3) ; Step 9 : pop(S1) ; \\Step 10 : push(S2,2) ; Step 11 : pop(S1) ; Step 12 : push(S2,1)
+
+    \item Algorithm : Find max at current time (O(n)), Then check if there are descending orders above it. If there is return False, else return True. e.g. if current max is 6 at index 2(from bottom, total items are 5),check the items in index 3-5 if there are descending orders (e.g. 5 at index 5 and 4 at index 4)
+
+    \item \begin{enumerate}
+        \item First student park at 5 (Since the leftmost space must be the largest ($\because$ forming a row where each bike is closer to the one on its right than to the one on its left)), Store 5 temporarily.
+        \item Second student park at 12.75 since 5.5(15.5-10) $>$ 5 (What we stored in step 1),(store 2.75 behind 5)
+        \item Third student park at 2.5 since 5 $>$ 1.5(17-15.5)
+        Thus, the answer is 2.5.
+    \end{enumerate} 
+    
+
+    \item  Following the previous sample question. The algorithms is based on comparing and maintaining two queues.
+    \begin{algorithm} [H]
+        \caption{Calculate\_Distance(positions,m)}
+        \begin{algorithmic}
+        \State Q1,Q2 = NIL,NIL \Comment{Q1,Q2 are queues}
+        \For{each position in positions}
+            \State Push(position[i+1]-position[i],Q1) \Comment{store original space length}
+        \EndFor
+        \State i=0
+        \While{i $<$ m} \Comment{m = students}
+            \If{Q2.head == NIL}
+                \State q2 = -1
+            \Else
+                \State q2 = Q2.head
+                \State q1 = Q1.head
+            \EndIf
+            \If{q2 $<$ q1}
+                \State tmp = q1/2
+                \If{tmp $>$ q1[head+1]*2} \Comment{the second element of the queue}
+                \State Continue \Comment{Don't move}
+                \ElsIf{tmp < q1.tail}
+                \State Dequeue(Q1)
+                \State Enqueue(tmp,Q1) \Comment{move to the back}
+                \Else
+                \State Dequeue(Q1)
+                \State Enqueue(tmp,Q2) \Comment{move to the other queue}
+                \EndIf
+            \Else 
+                \State tmp = q2/2
+                \If{tmp $>$ q2[head+1]*2} \Comment{the second element of the queue}
+                \State Continue \Comment{Don't move}
+                \ElsIf{tmp < q2.tail}
+                \State Dequeue(Q2)
+                \State Enqueue(tmp,Q2) \Comment{move to the back}
+                \Else
+                \State Dequeue(Q2)
+                \State Enqueue(tmp,Q1) \Comment{move to the other queue}
+                \EndIf
+            \EndIf
+            \State i+=1
+        \EndWhile
+        \State \Return tmp
+        \end{algorithmic}
+        \end{algorithm}
+
+        The time complexity is O(n) for inserting the original space length. The time complexity of the following procedure of comparing is m*O(1) = O(m). Hence, the total time complexity is O(n+m).
+        The space complexity is O(n+m) because it is impossible to there couldn't be more than m items in Q2. 
+\end{enumerate}
+
+\end{CJK*}
+\end{document}
